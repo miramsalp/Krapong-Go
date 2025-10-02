@@ -27,3 +27,15 @@ exports.protect = async (req, res, next) => {
         return res.status(401).json({ message: 'Token ไม่ถูกต้องหรือหมดอายุ', error: error.message });
     }
 };
+
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+        // spare 
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ 
+                message: 'คุณไม่มีสิทธิ์ในการเข้าถึงส่วนนี้' 
+            });
+        }
+        next();
+    };
+};
