@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes'); 
 const routeRoutes = require('./routes/routeRoutes'); 
 const vehicleRoutes = require('./routes/vehicleRoutes');
+const pingRoutes = require('./routes/pingRoutes'); 
 
 app.use(cors());
 app.use(express.json());
@@ -18,5 +19,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/routes', routeRoutes); 
 app.use('/api/vehicles', vehicleRoutes); 
+app.use('/api/pings', pingRoutes);
 
 module.exports = app;
