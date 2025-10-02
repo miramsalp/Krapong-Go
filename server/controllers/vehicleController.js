@@ -50,6 +50,12 @@ exports.updateMyVehicleLocation = async (req, res) => {
         };
         await vehicle.save();
 
+        const io = req.app.get('socketio');
+        io.to(vehicle.routeId.toString()).emit('vehicleLocationUpdate', {
+            vehicleId: vehicle._id,
+            location: vehicle.location
+        });
+
         res.status(200).json({
             status: 'success',
             data: {

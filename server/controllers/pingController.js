@@ -23,6 +23,9 @@ exports.createPing = async (req, res) => {
             }
         });
 
+        const io = req.app.get('socketio');
+        io.to(routeId).emit('newPing', newPing);
+
         res.status(201).json({
             status: 'success',
             data: {
@@ -71,6 +74,9 @@ exports.deleteMyPing = async (req, res) => {
         if (!ping) {
             return res.status(404).json({ message: 'ไม่พบ Ping ของคุณ' });
         }
+
+        const io = req.app.get('socketio');
+        io.to(ping.routeId.toString()).emit('pingRemoved', { pingId: ping._id });
 
         res.status(204).json({
             status: 'success',
