@@ -87,3 +87,26 @@ exports.deleteMyPing = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
+
+// @desc    Get the current passenger's active ping
+// @route   GET /api/pings/my-ping
+// @access  Private (Passenger only)
+exports.getMyPing = async (req, res) => {
+    try {
+        const ping = await Ping.findOne({ passengerId: req.user.id });
+
+        if (!ping) {
+            return res.status(404).json({ message: 'No active ping found for this user' });
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                ping
+            }
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};
