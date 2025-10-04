@@ -19,7 +19,14 @@ function MainPage() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            api.get('/users/me').then(res => setUser(res.data));
+            api.get('/users/me').then(res => {
+                const currentUser = res.data;
+                setUser(currentUser);
+
+                if (currentUser.role === 'passenger') {
+                    checkActivePing();
+                }
+            });
         }
 
         api.get('/routes').then(res => {
@@ -100,6 +107,19 @@ function MainPage() {
             alert('ยกเลิกไม่สำเร็จ หรือไม่มีหมุดของคุณอยู่แล้ว');
             setHasActivePing(false); 
             console.error(err);
+        }
+    };
+
+    const checkActivePing = async () => {
+        try {
+            await api.get('/pings/my-ping');
+            setHasActivePing(true);
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setHasActivePing(false);
+            } else {
+                console.error("Error checking for active ping:", error);
+            }
         }
     };
     
