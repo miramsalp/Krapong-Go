@@ -10,6 +10,17 @@ jobs:
   backend-checks:
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+          
+    env:
+      TEST_MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,8 +36,8 @@ jobs:
         run: npm install
         working-directory: ./server
 
-      - name: Run server linter
-        run: npm run lint
+      - name: Run server tests
+        run: npm test
         working-directory: ./server
 
   frontend-checks:
