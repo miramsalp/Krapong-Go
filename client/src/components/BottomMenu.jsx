@@ -1,11 +1,10 @@
 import React from 'react';
 import DriverMenu from './DriverMenu';
 import PassengerMenu from './PassengerMenu';
-import './BottomMenu.css'; 
+import './BottomMenu.css';
 import { FiLogOut } from 'react-icons/fi';
 
-function BottomMenu(props) {
-  const { user, routes, selectedRouteId, onSelectRoute, onLogout } = props;
+function BottomMenu({ user, routes, selectedRouteId, onSelectRoute, onLogout, passengerActions, driverActions }) {
 
   return (
     <div className="bottom-menu-card">
@@ -31,8 +30,23 @@ function BottomMenu(props) {
       <hr className="divider" />
 
       <div className="action-area">
-        {user.role === 'passenger' && <PassengerMenu {...props.passengerActions} />}
-        {user.role === 'driver' && <DriverMenu {...props.driverActions} selectedRouteId={selectedRouteId} />}
+        {user.role === 'passenger' && (
+          <PassengerMenu 
+            hasActivePing={passengerActions.hasActivePing}
+            onPing={passengerActions.handlePing}
+            onCancelPing={passengerActions.handleCancelPing}
+          />
+        )}
+        {user.role === 'driver' && (
+          <DriverMenu 
+            myVehicle={driverActions.myVehicle}
+            isOnline={driverActions.isOnline}
+            onGoOnline={driverActions.handleGoOnline}
+            onGoOffline={driverActions.handleGoOffline}
+            handleRegisterVehicle={driverActions.handleRegisterVehicle}
+            selectedRouteId={selectedRouteId} 
+          />
+        )}
       </div>
     </div>
   );
