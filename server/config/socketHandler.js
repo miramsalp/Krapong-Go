@@ -17,7 +17,7 @@ const initializeSocket = (io) => {
                 console.log(`User ${userId} authenticated with socket ${socket.id}`);
 
             } catch (err) {
-                console.log(`Socket authentication failed for ${socket.id}`);
+                console.log(`Socket authentication failed for ${socket.id}:`, err.message);
             }
         });
 
