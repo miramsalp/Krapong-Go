@@ -88,6 +88,9 @@ exports.updateMyVehicleStatus = async (req, res) => {
             return res.status(404).json({ message: 'ไม่พบรถของคุณ' });
         }
         
+        const io = req.app.get('socketio');
+        io.to(vehicle.routeId._id.toString()).emit('vehicleStatusChanged', vehicle);
+
         res.status(200).json({
             status: 'success',
             data: {
