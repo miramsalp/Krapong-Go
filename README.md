@@ -1,10 +1,18 @@
 # Krapong-Go
 Real-time vehicle tracking application designed for "Rod Krapong" shuttle buses. This project allows passengers to view live vehicle locations on a map and enables drivers to manage their status and location updates.
 
-<p align="center">
-  <img src="./docs/images/login.png" alt="Login Screen" width="400"/>
-  <img src="./docs/images/mainpage.png" alt="Passenger Menu" width="400"/>
-</p>
+<table>
+  <tr>
+    <td align="center">
+      <p><strong>Login & Authentication</strong></p>
+      <img src="./docs/images/mockup_login.png" alt="Login Screen Mockup" width="350"/>
+    </td>
+    <td align="center">
+      <p><strong>Real-time Tracking Map</strong></p>
+      <img src="./docs/images/mockup_mainpage.png" alt="Passenger Menu Mockup" width="350"/>
+    </td>
+  </tr>
+</table>
 
 ## Features
 
