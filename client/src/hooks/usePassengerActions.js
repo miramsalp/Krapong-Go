@@ -19,16 +19,30 @@ export function usePassengerActions(selectedRouteId) {
     }, []);
 
     const handlePing = () => {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-            try {
-                const { latitude, longitude } = position.coords;
-                const res = await api.post('/pings', { latitude, longitude, routeId: selectedRouteId });
-                alert('ส่งสัญญาณเรียกรถสำเร็จ!');
-                setMyPing(res.data.data.ping);
-            } catch (err) {
-                alert(err.response?.data?.message || 'ส่งสัญญาณไม่สำเร็จ');
-            }
-        });
+        const options = {
+            enableHighAccuracy: true, 
+            timeout: 10000,            
+            maximumAge: 0             
+        };
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => { 
+                try {
+                    // console.log('Position Found:', position); 
+                    const { latitude, longitude } = position.coords;
+                    const res = await api.post('/pings', { latitude, longitude, routeId: selectedRouteId });
+                    alert('ส่งสัญญาณเรียกรถสำเร็จ!');
+                    setMyPing(res.data.data.ping);
+                } catch (err) {
+                    alert(err.response?.data?.message || 'ส่งสัญญาณไม่สำเร็จ');
+                }
+            },
+            (error) => { 
+                console.error("Error getting location:", error);
+                alert(`ไม่สามารถหาตำแหน่งได้: ${error.message}`);
+            },
+            options 
+        );
     };
     
     const handleCancelPing = async () => {
