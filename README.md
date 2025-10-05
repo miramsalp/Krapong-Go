@@ -57,7 +57,11 @@ The backend server will be running at http://localhost:5000
     NODE_ENV=development
 
     # MongoDB Connection String
-    MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+    MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/myFirstDatabase?
+    retryWrites=true&w=majority
+
+    TEST_MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/TEST_myFirstDatabase?
+    retryWrites=true&w=majority
 
     # JWT
     JWT_SECRET=supersecretandverylongstringforsecurity
