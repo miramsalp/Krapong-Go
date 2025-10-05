@@ -32,6 +32,19 @@ export function useRealtimeData(selectedRouteId, user) {
             setVehicles(prev => prev.map(v => v._id === updatedVehicle.vehicleId ? { ...v, location: updatedVehicle.location } : v));
         });
 
+        socket.on('vehicleStatusChanged', (updatedVehicle) => {
+            if (updatedVehicle.status === 'en-route') {
+                setVehicles(prev => {
+                    if (prev.find(v => v._id === updatedVehicle._id)) {
+                        return prev; 
+                    }
+                    return [...prev, updatedVehicle]; 
+                });
+            } else {
+                setVehicles(prev => prev.filter(v => v._id !== updatedVehicle._id));
+            }
+        });
+
         if (user?.role === 'driver') {
             socket.on('newPing', newPing => setPings(prev => [...prev, newPing]));
             socket.on('pingRemoved', ({ pingId }) => setPings(prev => prev.filter(p => p._id !== pingId)));
