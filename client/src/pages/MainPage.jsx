@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Map from '../components/Map';
-import PassengerMenu from '../components/PassengerMenu';
-import DriverMenu from '../components/DriverMenu';
+import BottomMenu from '../components/BottomMenu';
 import api from '../api';
+
 
 import { useRealtimeData } from '../hooks/useRealtimeData';
 import { usePassengerActions } from '../hooks/usePassengerActions';
 import { useDriverActions } from '../hooks/useDriverActions';
 
+import './MainPage.css'; 
+
 function MainPage() {
     const [user, setUser] = useState(null);
     const [routes, setRoutes] = useState([]);
     const [selectedRouteId, setSelectedRouteId] = useState('');
+
+    const { vehicles, pings } = useRealtimeData(selectedRouteId, user);
+    const passengerActions = usePassengerActions(selectedRouteId);
+    const driverActions = useDriverActions();
 
     useEffect(() => {
         api.get('/users/me').then(res => setUser(res.data));
@@ -24,53 +30,32 @@ function MainPage() {
         });
     }, []);
 
-    const { vehicles, pings } = useRealtimeData(selectedRouteId, user);
-    const { myPing, hasActivePing, handlePing, handleCancelPing } = usePassengerActions(selectedRouteId);
-    const driverActions = useDriverActions();
-
     const handleLogout = () => {
         localStorage.removeItem('token');
         window.location.href = '/login';
     };
 
     if (!user) return <div>Loading...</div>;
-
+    
+    const { myPing } = passengerActions;
     const pingsForMap = user.role === 'driver' ? pings : (myPing ? [myPing] : []);
 
     return (
-        <div style={{ display: 'flex', height: '100vh' }}>
-            <div style={{ width: '300px', padding: '10px', background: '#f0f0f0', overflowY: 'auto' }}>
-                <h2>Welcome, {user.username}!</h2>
-                <p>Role: {user.role}</p>
-                 <select value={selectedRouteId} onChange={e => setSelectedRouteId(e.target.value)}>
-                    {routes.map(route => (
-                        <option key={route._id} value={route._id}>{route.routeName}</option>
-                    ))}
-                </select>
-                <button onClick={handleLogout} style={{float: 'right'}}>Logout</button>
-                <hr />
-
-                {user.role === 'passenger' && (
-                    <PassengerMenu 
-                        hasActivePing={hasActivePing} 
-                        onPing={handlePing}
-                        onCancelPing={handleCancelPing}
-                    />
-                )}
-                
-                {user.role === 'driver' && (
-                     <DriverMenu 
-                        myVehicle={driverActions.myVehicle}
-                        isOnline={driverActions.isOnline}
-                        onGoOnline={driverActions.handleGoOnline}
-                        onGoOffline={driverActions.handleGoOffline}
-                        handleRegisterVehicle={driverActions.handleRegisterVehicle}
-                        selectedRouteId={selectedRouteId}
-                     />
-                )}
-            </div>
-            <div style={{ flex: 1 }}>
+        <div className="main-container">
+            <div className="map-wrapper">
                 <Map vehicles={vehicles} pings={pingsForMap} />
+            </div>
+            
+            <div className="menu-wrapper">
+                <BottomMenu 
+                    user={user}
+                    routes={routes}
+                    selectedRouteId={selectedRouteId}
+                    onSelectRoute={(e) => setSelectedRouteId(e.target.value)}
+                    onLogout={handleLogout}
+                    passengerActions={passengerActions}
+                    driverActions={driverActions}
+                />
             </div>
         </div>
     );

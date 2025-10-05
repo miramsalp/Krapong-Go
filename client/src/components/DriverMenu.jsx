@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './DriverMenu.css';
 
 function DriverMenu({ myVehicle, isOnline, onGoOnline, onGoOffline, handleRegisterVehicle, selectedRouteId }) {
     const [licensePlate, setLicensePlate] = useState('');
@@ -13,19 +14,19 @@ function DriverMenu({ myVehicle, isOnline, onGoOnline, onGoOffline, handleRegist
     };
 
     return (
-        <div>
+        <div className="driver-menu-container"> 
             <h3>Driver Menu</h3>
             {myVehicle ? (
-                <div>
+                <div className="status-container">
                     <p>ทะเบียนรถ: {myVehicle.licensePlate}</p>
                     {!isOnline ? (
-                        <button onClick={onGoOnline}>Go Online</button>
+                        <button onClick={onGoOnline} className="action-button primary">Go Online</button>
                     ) : (
-                        <button onClick={onGoOffline} style={{ background: 'red' }}>Go Offline</button>
+                        <button onClick={onGoOffline} className="action-button offline">Go Offline</button>
                     )}
                 </div>
             ) : (
-                <form onSubmit={onRegisterSubmit}>
+                <form onSubmit={onRegisterSubmit} className="register-form">
                     <p>คุณยังไม่ได้ลงทะเบียนรถ</p>
                     <input 
                         type="text" 
@@ -34,7 +35,7 @@ function DriverMenu({ myVehicle, isOnline, onGoOnline, onGoOffline, handleRegist
                         placeholder="ทะเบียนรถ (เช่น กก-1234)"
                         required
                     />
-                    <button type="submit">ลงทะเบียนรถ</button>
+                    <button type="submit" className="action-button primary">ลงทะเบียนรถ</button>
                 </form>
             )}
         </div>
