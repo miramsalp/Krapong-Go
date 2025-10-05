@@ -4,6 +4,7 @@ const app = require("./app.js");
 const connectDB = require('./config/db')
 const { Server } = require("socket.io");
 const initializeSocket = require('./config/socketHandler.js'); 
+require('./config/redis');
 
 dotenv.config({ path: './.env' });
 

@@ -26,7 +26,16 @@ export function useRealtimeData(selectedRouteId, user) {
         if (!selectedRouteId) return;
 
         const socket = io('http://localhost:5000');
-        socket.on('connect', () => socket.emit('joinRoute', selectedRouteId));
+        socket.on('connect', () => {
+            console.log('Socket connected!');
+
+            const token = localStorage.getItem('token');
+            if (token) {
+                socket.emit('authenticate', { token });
+            }
+
+            socket.emit('joinRoute', selectedRouteId);
+        });
 
         socket.on('vehicleLocationUpdate', updatedVehicle => {
             setVehicles(prev => prev.map(v => v._id === updatedVehicle.vehicleId ? { ...v, location: updatedVehicle.location } : v));
