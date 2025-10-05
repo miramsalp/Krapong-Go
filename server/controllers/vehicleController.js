@@ -127,3 +127,18 @@ exports.getActiveVehiclesOnRoute = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
+
+// @desc    Get the vehicle for the current logged in driver
+// @route   GET /api/vehicles/my-vehicle
+// @access  Private (Driver only)
+exports.getMyVehicle = async (req, res) => {
+    try {
+        const vehicle = await Vehicle.findOne({ driverId: req.user.id });
+        if (!vehicle) {
+            return res.status(404).json({ message: 'No vehicle registered for this driver.' });
+        }
+        res.status(200).json({ status: 'success', data: { vehicle } });
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
