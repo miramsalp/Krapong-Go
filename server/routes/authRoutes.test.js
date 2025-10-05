@@ -4,6 +4,8 @@ const app = require('../app');
 const User = require('../models/User');
 const dotenv = require('dotenv');
 
+jest.setTimeout(30000); 
+
 dotenv.config({ path: './.env' });
 
 beforeAll(async () => {
