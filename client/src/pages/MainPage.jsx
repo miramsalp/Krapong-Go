@@ -60,9 +60,12 @@ function MainPage() {
                 
                 {user.role === 'driver' && (
                      <DriverMenu 
+                        myVehicle={driverActions.myVehicle}
                         isOnline={driverActions.isOnline}
                         onGoOnline={driverActions.handleGoOnline}
                         onGoOffline={driverActions.handleGoOffline}
+                        handleRegisterVehicle={driverActions.handleRegisterVehicle}
+                        selectedRouteId={selectedRouteId}
                      />
                 )}
             </div>
