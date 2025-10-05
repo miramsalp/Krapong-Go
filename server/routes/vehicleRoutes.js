@@ -7,5 +7,6 @@ router.route('/').post(protect, restrictTo('driver'), vehicleController.register
 
 router.patch('/my-vehicle/location', protect, restrictTo('driver'), vehicleController.updateMyVehicleLocation);
 router.patch('/my-vehicle/status', protect, restrictTo('driver'), vehicleController.updateMyVehicleStatus);
+router.get('/my-vehicle', protect, restrictTo('driver'), vehicleController.getMyVehicle);
 
 module.exports = router;
