@@ -28,63 +28,40 @@ This project allows passengers to view live vehicle locations, while enabling dr
 
 **Server:** Node.js, Express.js, MongoDB (Mongoose), Socket.IO, Redis, JSON Web Token (JWT)
 
-**DevOps:** Docker (for running Redis) 
+**DevOps:** Docker, Docker Compose
 
-## Installation
+## Getting Started
 
-### Clone the repository
+### Prerequisites
+
+- Docker
+- Docker Compose
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
     git clone https://github.com/miramsalp/Krapong-Go.git
     cd Krapong-Go
 ```
 
-### Backend Setup
+2. Create a `.env` file in the `server` directory with the following content:
 
 ```bash
-    cd server
-    npm install
-    # set up .env in server folder example is below
-    # set up docker somewhere you need redis to be running
-    docker run -d -p 6379:6379 --name krapong-redis redis
-    npm run dev
-```
-The backend server will be running at http://localhost:5000
-
-### .env (backend)
-```bash
-    PORT=5000
-    NODE_ENV=development
-
-    # MongoDB Connection String
-    MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/myFirstDatabase?
-    retryWrites=true&w=majority
-
-    TEST_MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/TEST_myFirstDatabase?
-    retryWrites=true&w=majority
-
-    # JWT
-    JWT_SECRET=supersecretandverylongstringforsecurity
-    JWT_EXPIRES_IN=90d
+NODE_ENV=production
+PORT=5000
+MONGO_URI=mongodb://admin:password123@mongo:27017/myapp?authSource=admin
+REDIS_HOST=redis
+REDIS_PORT=6379
+JWT_SECRET=your-super-secret-and-long-jwt-secret
+JWT_EXPIRES_IN=90d
 ```
 
-### Frontend Setup
+3. Build and run the application using Docker Compose:
 
 ```bash
-    cd client
-    npm install
-    # set up .env for frontend example below
-    npm run dev
-```
-### .env (frontend)
-
-```bash
-    # Environment variables for the client application
-    VITE_API_BASE_URL=http://localhost:5000
+    docker-compose up --build
 ```
 
-The frontend application will be available at http://localhost:5173
-
-
-
-
+The application will be available at `http://localhost:3000`.

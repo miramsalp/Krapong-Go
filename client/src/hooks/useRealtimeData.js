@@ -38,6 +38,7 @@ export function useRealtimeData(selectedRouteId, user) {
         });
 
         socket.on('vehicleLocationUpdate', updatedVehicle => {
+            console.log('vehicleLocationUpdate', updatedVehicle);
             setVehicles(prev => prev.map(v => v._id === updatedVehicle.vehicleId ? { ...v, location: updatedVehicle.location } : v));
         });
 

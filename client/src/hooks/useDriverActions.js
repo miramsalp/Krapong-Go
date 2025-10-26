@@ -33,7 +33,8 @@ export function useDriverActions() {
 
     const handleGoOnline = () => {
         api.patch('/vehicles/my-vehicle/status', { status: 'en-route' })
-            .then(() => {
+            .then((res) => {
+                setMyVehicle(res.data.data.vehicle);
                 setIsOnline(true);
                 locationWatchId.current = navigator.geolocation.watchPosition(
                     (position) => {
@@ -43,8 +44,12 @@ export function useDriverActions() {
                     (error) => console.error("Geolocation Error:", error),
                     { enableHighAccuracy: true }
                 );
+                alert("หมุดสำเร็จ")
             })
-            .catch(err => alert('ไม่สามารถเริ่มวิ่งได้ กรุณาลงทะเบียนรถก่อน'));
+            .catch(err => {
+                alert('ไม่สามารถเริ่มวิ่งได้ กรุณาลงทะเบียนรถก่อน')
+                console.log(err)
+            });
     };
 
     const handleGoOffline = () => {
@@ -52,7 +57,11 @@ export function useDriverActions() {
             navigator.geolocation.clearWatch(locationWatchId.current);
         }
         api.patch('/vehicles/my-vehicle/status', { status: 'offline' })
-            .then(() => setIsOnline(false));
+            .then((res) => {
+                setMyVehicle(res.data.data.vehicle);
+                setIsOnline(false);
+            });
+        alert("ยกเลิกหมุดสำเร็จ")
     };
     
     return { myVehicle, isOnline, handleGoOnline, handleGoOffline, handleRegisterVehicle };

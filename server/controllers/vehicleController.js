@@ -37,7 +37,7 @@ exports.registerVehicle = async (req, res) => {
 // @access  Private (Driver only)
 exports.updateMyVehicleLocation = async (req, res) => {
     try {
-        const { longitude, latitude } = req.body;
+        const { latitude, longitude } = req.body;
         
         const vehicle = await Vehicle.findOne({ driverId: req.user.id });
         if (!vehicle) {
@@ -94,7 +94,7 @@ exports.updateMyVehicleStatus = async (req, res) => {
         res.status(200).json({
             status: 'success',
             data: {
-                status: vehicle.status
+                vehicle: vehicle
             }
         });
 

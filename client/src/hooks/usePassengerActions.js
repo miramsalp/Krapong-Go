@@ -53,6 +53,7 @@ export function usePassengerActions(selectedRouteId) {
         } catch (err) {
             alert('ยกเลิกไม่สำเร็จ หรือไม่มีหมุดของคุณอยู่แล้ว');
             setMyPing(null);
+            console.log(err)
         }
     };
 
