@@ -49,13 +49,13 @@ This project allows passengers to view live vehicle locations, while enabling dr
 2. Create a `.env` file in the `server` directory with the following content:
 
 ```bash
-NODE_ENV=production
-PORT=5000
-MONGO_URI=mongodb://admin:password123@mongo:27017/myapp?authSource=admin
-REDIS_HOST=redis
-REDIS_PORT=6379
-JWT_SECRET=your-super-secret-and-long-jwt-secret
-JWT_EXPIRES_IN=90d
+    NODE_ENV=production
+    PORT=5000
+    MONGO_URI=mongodb://admin:password123@mongo:27017/myapp?authSource=admin
+    REDIS_HOST=redis
+    REDIS_PORT=6379
+    JWT_SECRET=your-super-secret-and-long-jwt-secret
+    JWT_EXPIRES_IN=90d
 ```
 
 3. Build and run the application using Docker Compose:
